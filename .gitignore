@@ -11,7 +11,8 @@ cmake-build-*/
 # Google Testing Framework
 googletest*/
 
-=======
 googletest-master
->>>>>>> golabek
+
 npg_mateusz_golabek
+
+docs
