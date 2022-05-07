@@ -1,0 +1,28 @@
+@startuml
+abstract class Vehicle {
+	+ Vehicle(std::string id, std::string brand)
+	+ getId() : std::string
+	+ getBrand() : std::string
+	+ {abstract} getMaxSpeed() : double
+	+ ~Vehicle()
+	__
+	- _id : std::string
+	- _brand : std::string
+}
+
+class Car {
+	+ Car(std::string id, std::string brand, double engineHP)
+	+ getMaxSpeed() : double
+	__
+	- _engineHP : double
+}
+Vehicle <|-- Car
+
+class Bicycle {
+	+ Bicycle(std::string id, std::string brand, int nGears)
+	+ getMaxSpeed() : double
+	__
+	- _nGears : int
+}
+Vehicle <|-- Bicycle
+@enduml

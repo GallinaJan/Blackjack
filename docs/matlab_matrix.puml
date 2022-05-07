@@ -1,0 +1,19 @@
+@startuml
+hide empty members
+
+class Matrix {
+	+ Matrix(std::size_t n_rows, std::size_t n_cols)
+	+ Matrix(std::vector<std::vector<int>> m)
+	+ size() : std::size_t
+	+ sum() : int
+	+ ( operator[] )
+	+ ( iteratory )
+	__
+	- _matrix : ???
+}
+
+class MatVect {
+}
+
+Matrix "1" *-- "0..n" MatVect
+@enduml
