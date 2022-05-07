@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # README #
 
 ## Zawartość repozytorium ##
@@ -23,3 +24,6 @@ Q: **Dlaczego nie powinenem/powinnam zaglądać do rozwiązań w trakcie wykonyw
 
 A: Gdyż proces rozwiązywania ewentualnych napotkanych problemów pozwoli Ci lepiej ugruntować wiedzę – nie mówiąc o satysfakcji z pokonywania trudności!  _(Amerykańscy naukowcy zapewne już to udowodnili ;)_  
 Masz jakiś problem?! – Poproś prowadzącego zajęcia o pomoc!
+=======
+Dzień dobry
+>>>>>>> golabek

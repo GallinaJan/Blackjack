@@ -1,0 +1,3 @@
+C:/Users/matig/Documents/Studia/Git/Wersje/blackjack_1/cmake-build-debug/CMakeFiles/blackjack_1.dir
+C:/Users/matig/Documents/Studia/Git/Wersje/blackjack_1/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/matig/Documents/Studia/Git/Wersje/blackjack_1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
