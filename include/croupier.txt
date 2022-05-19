@@ -1,0 +1,14 @@
+#ifndef INCLUDE_CROUPIER_HPP_
+#define INCLUDE_CROUPIER_HPP_
+
+class Croupier
+{
+public:
+	
+	
+private:
+	double money_on_table_
+	double sum_ = 0
+};
+
+#endif /*INCLUDE_CROUPIER_HPP_
