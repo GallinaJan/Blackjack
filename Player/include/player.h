@@ -10,9 +10,9 @@ public:
     Cards give_card(){} /*player.cpp*/
     Cards show_cards(){return {card1, card2};}
     int give_sum() const {return card1.give_value()+card2.give_value();}
-    void is_blackjack(){}
+    bool is_blackjack(){}
     void clear_cards(){ /*cleaning function*/}
-    void can_split(){return true if card1.give_value() == card2.give_value();}
+    bool can_split(){}
     Cards give_cards_id(Cards card){return card.get_id(); }
 
 
