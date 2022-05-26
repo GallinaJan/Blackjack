@@ -1,0 +1,3 @@
+C:/Users/adasa/CLionProjects/BJ/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/adasa/CLionProjects/BJ/cmake-build-debug/CMakeFiles/BJ.dir
+C:/Users/adasa/CLionProjects/BJ/cmake-build-debug/CMakeFiles/edit_cache.dir
