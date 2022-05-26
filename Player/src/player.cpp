@@ -31,3 +31,6 @@ bool is_blackjack(){
         return false;
     }
 }
+void show_cards(){
+    for (auto elem : player_cards)
+}
