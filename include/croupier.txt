@@ -4,7 +4,7 @@
 class Croupier
 {
 public:
-	
+	void add_money(double added) {money_on_table_ = added;}
 	
 private:
 	double money_on_table_
