@@ -1,3 +1,5 @@
+#ifndef CARDS_CARDS_H
+#define CARDS_CARDS_H
 #include <iostream>
 #include <string>
 class Cards{
@@ -11,3 +13,4 @@ private:
     std::size_t value_;
     std::size_t id_;
 };
+#endif //CARDS_CARDS_H
