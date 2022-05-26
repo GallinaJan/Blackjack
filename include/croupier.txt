@@ -9,6 +9,7 @@ public:
 private:
 	double money_on_table_
 	double sum_ = 0
+	std::vector<Cards> croupier_cards
 };
 
 #endif /*INCLUDE_CROUPIER_HPP_
