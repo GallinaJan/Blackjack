@@ -9,11 +9,11 @@ Cards give_card(){
             rand_card = elem;
         }
     }
-    return rand_cart;
+    return rand_card;
 }
 
 bool can_split() {
-    if card1.give_value() == card2.give_value()
+    if player_cards_[0].give_value() == player_cards_[1].give_value()
     {
         return true;
     }
@@ -23,11 +23,13 @@ bool can_split() {
 }
 
 bool is_blackjack(){
-    if (card1.give_value() == 10 and card2.give_value() == 11 or
-    card1.give_value() == 11 and card2.give_value() == 10){
+    if (player_cards_.give_sum() == 21){
         return true;
     }
     else{
         return false;
     }
+}
+void show_cards(){
+    for (auto elem : player_cards)
 }
