@@ -4,6 +4,7 @@
 #define PLAYER_PLAYER_H
 #include <map>
 #include <vector>
+#include <algorithm>
 
 class Player{
 public:
@@ -11,7 +12,8 @@ public:
     void take_money(x){my_money_ = my_money_ - x;}
     Cards give_card(){} /*player.cpp*/
     void show_cards(){}
-    int give_sum() {return card1.give_value()+card2.give_value();}
+    int give_sum() {return std::accumulate(std::begin(player_cards_), std::end(player_cards_), 0, [](int acc)
+        {return acc + player_cards_.give_value();})}
     bool is_blackjack(){}
     void clear_cards(){ /*cleaning function*/}
     bool can_split(){}
