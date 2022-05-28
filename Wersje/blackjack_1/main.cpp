@@ -1,6 +1,9 @@
 #include <iostream>
 #include <stdio.h>
-#include <string>
+#include "player.hpp"
+#include "croupier.hpp"
+#include "cards.hpp"
+#include "cleaning.hpp"
 
 int main() {
     std::string start;
@@ -12,7 +15,6 @@ int main() {
     if(start == "Y" || start == "y"){
         Croupier croupier;
         Player player;
-        //
     }
     else{
         return -1;
