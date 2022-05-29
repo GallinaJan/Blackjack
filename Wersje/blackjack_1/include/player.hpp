@@ -10,6 +10,7 @@ public:
     void take_money( int x){my_money_ = my_money_ - x;}
     Cards give_card(); //player.cpp
     void show_cards(){}
+    int get_money() {return my_money_;}
     int give_sum(Cards card1, Cards cards2) {return card1.give_value() + card2.give_value();}
     bool is_blackjack();
     void clear_cards(); //cleaning function
