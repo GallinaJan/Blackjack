@@ -17,9 +17,7 @@ public:
     bool is_blackjack(){}
     void clear_cards(){ /*cleaning function*/}
     bool can_split(){}
-    Cards give_cards_id(Cards card){return card.get_id(); }
-
-
+    Cards give_cards_id(Cards card){return card.give_id(); }
 
 private:
     int my_money_ = 5000;

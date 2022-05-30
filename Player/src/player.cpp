@@ -1,5 +1,6 @@
 #include "player.h"
 #include <cstdlib>
+#include <iostream>
 
 Cards give_card(){
     int number = rand() % 52 + 1;
@@ -31,5 +32,8 @@ bool is_blackjack(){
     }
 }
 void show_cards(){
-    for (auto elem : player_cards)
+    std::cout<<"Karty gracza: "<<endl;
+    for (auto elem : player_cards_){
+        std::cout<<elem.give_name() << elem.give_suit() << elem.give_value() <<endl;
+    }
 }
