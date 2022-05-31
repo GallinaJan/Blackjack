@@ -18,4 +18,10 @@ private:
     std::size_t value_;
     std::size_t id_;
 };
+
+Cards card_1("AS", "pik", 11, 0)
+Cards card_2("AS", "kier", 11, 1)
+Cards card_3("AS", "trefl", 11, 2)
+Cards card_4("AS", "karo", 11, 3)
+    
 #endif //CARDS_CARDS_H
