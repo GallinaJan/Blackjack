@@ -29,4 +29,9 @@ Cards card_6("krol", "kier", 10, 5)
 Cards card_7("krol", "trefl", 10, 6)
 Cards card_8("krol", "karo", 10, 7)
     
+Cards card_9("dama", "pik", 10, 8)
+Cards card_10("dama", "kier", 10, 9)
+Cards card_11("dama", "trefl", 10, 10)
+Cards card_12("dama", "karo", 10, 11)
+    
 #endif //CARDS_CARDS_H
