@@ -6,7 +6,7 @@
 #include "cleaning.hpp"
 
 void play(Croupier& croupier, Player& player);
-void play_again();
+void play_again(Player& player, Croupier& croupier);
 
 int main() {
     std::string start;
@@ -18,8 +18,16 @@ int main() {
     if(start == "Y" || start == "y"){
         Croupier croupier;
         Player player;
+        play(croupier, player);
         while(player.get_money() > -1){
-            play(croupier, player);
+            std::cout << "If you want to play again, type \"Y\", if you want to quit, type \"N\"" << std::endl;
+            std::cin >> start;
+            if(start == "N" || start == "n") {
+                return 0;
+            }
+            if(start == "Y" || start == "y") {
+                play(croupier, player);
+            }
         }
     }
     else{
@@ -43,47 +51,68 @@ void play(Croupier& croupier, Player& player){
         show_current_status(croupier, player);
         if(player.is_blackjack()){
             std::cout<<"You've got blackjack!"<<std::endl;
-            //player.win_money(bid * 2);
+            player.win_money(bid * 2);
         }
         if(player.can_split()){
             std::string choice;
             std::cout<<"Do you want to hit, stand or split?"<<std::endl;
             std::cin>>choice;
             if(choice == "hit"){
-                //
+                player.give_card();
+                play_again(player,croupier);
             }
             if(choice == "stand"){
-                //
+                croupier.show_second();
+                croupier_move();
+                if (player.give_sum() > croupier.give_sum()) {
+                    std::cout << "You have won!" << std::endl;
+                    player.win_money(bid * 2);
+                    cleaning_function();
+                }
+                if (player.give_sum() == croupier.give_sum()) {
+                    std::cout << "Draw" << std::endl;
+                    player.win_money(bid);
+                    cleaning_function();
+                }
             }
             if(choice == "split"){
-                //
+                player.take_money(bid);
+                player.hide_second();
+                player.give_card();
+                play_again(player, croupier);
+                player.show_second();
+                player.give_card();
+                play_again(player, croupier);
+                cleaning_function();
             }
         }
-        if(/*croupier.has_ace*/){
+        if(croupier.has_ace_as_first){
             std::string choice;
             std::cout<<"Do you want to hit, stand or insurance?"<<std::endl;
             std::cin>>choice;
             if (choice == "hit"){
                 player.give_card();
-                play_again();
+                play_again(player,croupier);
+                cleaning_function();
             }
-            if (choice == "stand"){
+            if (choice == "stand") {
                 croupier.show_second();
-                //croupier_move();
-                if(player.give_sum() > croupier.give_sum()) {
-                    std::cout<<"You have won!"<<std::endl;
+                croupier_move();
+                if (player.give_sum() > croupier.give_sum()) {
+                    std::cout << "You have won!" << std::endl;
                     player.win_money(bid * 2);
                     cleaning_function();
                 }
-                if(player.give_sum() == croupier.give_sum()) {
-                    std::cout <<"Draw"<< std::endl;
+                if (player.give_sum() == croupier.give_sum()) {
+                    std::cout << "Draw" << std::endl;
                     player.win_money(bid);
                     cleaning_function();
                 }
-                else {
-                    std::cout<<"You have lost"<<std::endl;
-                    cleaning_function();
-                }
+            }
+            else {
+                std::cout<<"You have lost"<<std::endl;
+                cleaning_function();
+            }
             }
             if (choice == "insurance"){
                 player.take_money(int(bid*0.5));
@@ -102,7 +131,8 @@ void play(Croupier& croupier, Player& player){
             std::cin>>choice;
             if (choice == "hit"){
                 player.give_card();
-                play_again();
+                play_again(player,croupier);
+                cleaning_function();
             }
             if (choice == "stand"){
                 croupier.show_second();
@@ -124,7 +154,8 @@ void play(Croupier& croupier, Player& player){
             }
             if (choice == "double"){
                 player.take_money(bid);
-                play_again();
+                play_again(player,croupier);
+                cleaning_function();
             }
             }
         }
@@ -132,13 +163,13 @@ void play(Croupier& croupier, Player& player){
     return;
 }
 
-void play_again(){
+void play_again(Player& player, Croupier& croupier){
     std::string choice;
-    std::cout<<"Do you want to hit, stand?"<<std::endl;
+    std::cout<<"Do you want to hit or stand?"<<std::endl;
     std::cin>>choice;
     if (choice == "hit"){
         player.give_card();
-        play_again();
+        play_again(player,croupier);
     }
     if (choice == "stand"){
         croupier.show_second();
@@ -146,16 +177,13 @@ void play_again(){
         if(player.give_sum() > croupier.give_sum()) {
             std::cout<<"You have won!"<<std::endl;
             player.win_money(bid * 2);
-            cleaning_function();
         }
         if(player.give_sum() == croupier.give_sum()) {
             std::cout <<"Draw"<< std::endl;
             player.win_money(bid);
-            cleaning_function();
         }
         else {
             std::cout<<"You have lost"<<std::endl;
-            cleaning_function();
         }
     }
 }
