@@ -66,7 +66,13 @@ int Croupier::give_croupier_sum()
 }
 
 void croupier_move(Croupier& croupier){
-    while(croupier.give_sum() < 17){
+    int keep_playing = 17;
+    int player_sum = Player::give_sum();
+    if(player_sum >= keep_playing)
+    {
+        keep_playing = player_sum;
+    }
+    while(croupier.give_sum() <= keep_playing){
         croupier.give_card();
     }
 }
