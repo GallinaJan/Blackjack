@@ -23,6 +23,6 @@ private:
     int my_money_ = 5000;
     std::vector<Cards> player_cards_;
     int sum_ = 0;
-    void win_money(){}
+    void win_money(int prize){ my_money_ = my_money_ + prize;}
 };
 #endif //PLAYER_PLAYER_H
