@@ -17,3 +17,13 @@ bool Croupier::has_ace_as_first()
         return 0;
     }
 }
+
+int Croupier::give_croupier_sum()
+{
+    int ace_number = 0;
+    for(auto elem : croupier_cards_)
+    {
+        
+        value += give_value(elem);
+    }
+}
