@@ -7,14 +7,13 @@
 
 bool Croupier::has_ace_as_first()
 {
-    std::string name Cards::give_name(croupier_cards_[0]);
-    if(name == "as" || name == "As")
+    if((croupier_cards_[0]).name_ == "as"))
     {
-        return 1;
+        return true;
     }
     else
     {
-        return 0;
+        return false;
     }
 }
 
@@ -72,6 +71,15 @@ void Croupier::show_cards()
         std::cout << elem.name_ << " " << elem.suit_ <<", "
     }
     std::cout << std::endl;
+}
+
+bool Croupier::is_blackjack()
+{
+    if(has_ace_as_first() && ((croupier_cards_[1]).name_ == "walet" ||(croupier_cards_[1]).name_ == "dama"||(croupier_cards_[1]).name_ == "król"))
+    {
+        return true;
+    }
+        return false;
 }
 
 void croupier_move(Croupier& croupier){

@@ -10,6 +10,7 @@ void add_money(double added) {money_on_table_ = added;}
 void give_card() {croupier_cards_.push_back(take_card());}
 void show_second() {std::cout<< croupier_cards_[1] << std::endl;}
 void show_cards();
+bool is_blackjack();
 bool has_ace_as_first();
 int give_croupier_sum();
 
