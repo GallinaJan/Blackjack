@@ -15,4 +15,6 @@ private:
     std::vector<Cards> croupier_cards_;
 };
 
+void croupier_move(Croupier& croupier);
+
 #endif //*INCLUDE_CROUPIER_HPP_
