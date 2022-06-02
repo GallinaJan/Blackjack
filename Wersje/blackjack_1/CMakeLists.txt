@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(SOURCE_FILES
         src/player.cpp
         src/cleaning.cpp
+        src/croupier.cpp
         )
 
 set(SOURCES_FILES_TESTS

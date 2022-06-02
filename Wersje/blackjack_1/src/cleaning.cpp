@@ -7,3 +7,7 @@ void cleaning_function(Croupier& croupier, Player& player) {
     player.clear_cards
     continue
 }
+void show_current_status(Croupier& croupier, Player& player) {
+    croupier.show_cards();
+    player.show_cards();
+}
