@@ -37,10 +37,10 @@ void play(Croupier& croupier, Player& player){
         croupier.add_money(bid);
         croupier.give_card();
         croupier.give_card();
-        //croupier.hide_second();
+        croupier.hide_second();
         player.give_card();
         player.give_card();
-        //show_current_status(croupier, player);
+        show_current_status(croupier, player);
         if(player.is_blackjack()){
             std::cout<<"You've got blackjack!"<<std::endl;
             //player.win_money(bid * 2);
@@ -106,7 +106,7 @@ void play(Croupier& croupier, Player& player){
             }
             if (choice == "stand"){
                 croupier.show_second();
-                //croupier_move();
+                croupier_move();
                 if(player.give_sum() > croupier.give_sum()) {
                     std::cout<<"You have won!"<<std::endl;
                     player.win_money(bid * 2);
@@ -142,7 +142,7 @@ void play_again(){
     }
     if (choice == "stand"){
         croupier.show_second();
-        //croupier_move();
+        croupier_move();
         if(player.give_sum() > croupier.give_sum()) {
             std::cout<<"You have won!"<<std::endl;
             player.win_money(bid * 2);
