@@ -65,6 +65,15 @@ int Croupier::give_croupier_sum()
     }
 }
 
+void Croupier::show_cards()
+{
+    for(auto elem : croupier_cards_)
+    {
+        std::cout << elem.name_ << " " << elem.suit_ <<", "
+    }
+    std::cout << std::endl;
+}
+
 void croupier_move(Croupier& croupier){
     int keep_playing = 17;
     int player_sum = Player::give_sum();
