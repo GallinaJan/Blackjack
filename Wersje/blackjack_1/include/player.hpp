@@ -15,7 +15,7 @@ public:
     void show_cards() {
         std::cout << "Karty gracza: " << std::endl;
         for (auto elem: player_cards_) {
-            std::cout << elem.give_name() << elem.give_suit() << elem.give_value() << std::endl;
+            std::cout << elem.give_name() << " " << elem.give_suit() << std::endl;
         }
     }
 

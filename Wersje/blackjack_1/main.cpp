@@ -44,7 +44,7 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand)
     int bid = 0;
     std::cout << "How much money do you bid?" << std::endl;
     std::cin >> bid; //stawka gracza
-    if (bid - player.get_money() > -1 && bid != 0) { //warunek czy saldo dodatnie
+    if (player.get_money() - bid > -1 && bid != 0) { //warunek czy saldo dodatnie
         player.take_money(bid); //zabranie pieniedzy graczowi
         croupier.give_card(need_to_shuffle);
         croupier.give_card(need_to_shuffle); //dodanie to reki krupiera dwoch kart
