@@ -39,6 +39,10 @@ public:
 
         while (left_ > 0) {
             int new_idx = std::rand() % 52;
+            while (visited_[new_idx]){
+                new_idx = (new_idx + 7) % 52;
+            }
+
             if (!visited_[new_idx]) {
                 visited_[new_idx] = true;
                 hand_.push_back(default_tab_[new_idx]);
