@@ -1,3 +1,6 @@
+#ifndef CARDS_HPP
+#define CARDS_HPP
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -5,6 +8,8 @@
 
 class Cards {
 public:
+    Cards() = default;
+
     Cards(std::string name, std::string suit, std::size_t value, std::size_t id) :
             name_(name), suit_(suit), value_(value), id_(id) {}
 
@@ -14,7 +19,7 @@ public:
 
     std::size_t give_value() { return value_; }
 
-    std::size_t give_id() { return id_; }
+    std::size_t give_id() const { return id_; }
 
 private:
     std::string name_;
@@ -34,6 +39,10 @@ public:
 
         while (left_ > 0) {
             int new_idx = std::rand() % 52;
+            while (visited_[new_idx]){
+                new_idx = (new_idx + 7) % 52;
+            }
+
             if (!visited_[new_idx]) {
                 visited_[new_idx] = true;
                 hand_.push_back(default_tab_[new_idx]);
@@ -51,8 +60,9 @@ public:
             hand_.pop_back();
             return tmp;
         }
-
-
+        else{
+            return Cards("error","error",100,100);
+        }
     }
 
 private:
@@ -123,3 +133,5 @@ private:
             Cards("2", "trefl", 3, 50),
             Cards("2", "karo", 3, 51)};
 };
+
+#endif //CARDS_HPP

@@ -11,5 +11,8 @@ void cleaning_function(Croupier& croupier, Player& player, bool* need_to_shuffle
         *hand = new_hand;
     }
 }
-void show_current_status(Croupier& croupier, Player& player);
+void show_current_status(Croupier& croupier, Player& player) {
+    croupier.show_cards();
+    player.show_cards();
+}
 #endif //MAIN_CPP_CLEANING_HPP
