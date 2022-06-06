@@ -6,7 +6,7 @@
 #include <ctime>
 
 int get_idx() {
-    srand(time(NULL));
+    srand(static_cast<unsigned int>(time(NULL)));
     return (101 * std::rand()) % 52;
 }
 
