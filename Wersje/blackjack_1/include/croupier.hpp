@@ -56,7 +56,7 @@ public:
         int ace_number = 0;
         int sum = 0;
         for (auto elem: croupier_cards_) {
-            if (elem.give_id() == 0 || elem.give_id() == 1 || elem.give_id() == 2 || elem.give_id() == 3) {
+            if (elem.give_name() == "as") {
                 ace_number += 1;
             }
         }
@@ -81,12 +81,13 @@ public:
                     sum += int(elem.give_value());
                 }
             }
-            if (ace_number != 0) {
-                if ((sum + 10 + ace_number) <= 21) {
-                    sum += (10 + ace_number);
-                } else {
-                    sum += ace_number;
-                }
+            else{
+                sum +=1;
+            }
+        }
+        if (ace_number != 0) {
+            if ((sum + 10) <= 21) {
+                sum += 10;
             }
         }
         return sum;

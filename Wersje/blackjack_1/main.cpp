@@ -5,29 +5,34 @@
 #include "cards.hpp"
 
 void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand); //funkcja rozpoczynajaca gre
-void play_again(Player &player, Croupier &croupier, bool *need_to_shuffle, Hand *hand, int bid); //funkcja pozwalajaca a kolejne ruchy
-void cleaning_function(Croupier& croupier, Player& player, bool* need_to_shuffle, Hand* hand) {
+void play_again(Player &player, Croupier &croupier, bool *need_to_shuffle, Hand *hand,
+                int bid); //funkcja pozwalajaca a kolejne ruchy
+void cleaning_function(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand) {
     croupier.clean_hand();
     player.clean_hand();
-    if(need_to_shuffle){
+    if (need_to_shuffle) {
         Hand new_hand;
         *hand = new_hand;
     }
 }
-void show_current_status(Croupier& croupier, Player& player) {
+
+void show_current_status(Croupier &croupier, Player &player) {
     croupier.show_cards();
     player.show_cards();
+    std::cout << std::endl;
 }
+
 void croupier_move(Croupier &croupier, Player &player, bool *need_to_shuffle) {
-    int keep_playing = 17;
+    int keep_playing = 15;
     int player_sum = player.give_player_sum();
     if (player_sum >= keep_playing) {
         keep_playing = player_sum;
     }
-    while (croupier.give_croupier_sum() <= keep_playing) {
+    while (croupier.give_croupier_sum() < keep_playing) {
         croupier.give_card(need_to_shuffle);
     }
 }
+
 int main() {
     bool false_ = false;
     bool *need_to_shuffle = &false_;
@@ -72,8 +77,10 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand)
         player.give_card(need_to_shuffle); //dodanie dwoch kart graczowi
         show_current_status(croupier, player); //wypisanie na ekran kart gracza i jednej karty krupiera
         if (player.is_blackjack()) { //sprawdzenie czy gracz wygral blackjackiem
-            std::cout << "You've got blackjack!" << std::endl;
-            player.win_money(bid * 2); //gracz wygrywa dwukrotnosc posatwionych pieniedzy
+            player.win_money(int(bid * 2.5)); //gracz wygrywa dwukrotnosc posatwionych pieniedzy
+            std::cout << "You've got blackjack! Account status: " << player.get_money() << std::endl;
+            cleaning_function(croupier, player, need_to_shuffle, hand);
+            return;
         }
         if (player.can_split()) { //sprawdzenie czy gracz moze rozdzielic
             std::string choice;
@@ -91,14 +98,16 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand)
                 croupier_move(croupier, player, need_to_shuffle); //krupier wykonuje ruch
                 show_current_status(croupier, player); //wypisuje na ekran stan po ruchahc krupiera
                 if (player.give_player_sum() > croupier.give_croupier_sum()) { //sprawdza kto wygral
-                    std::cout << "You have won!" << std::endl;
                     player.win_money(bid * 2);
+                    std::cout << "You have won! Account status: " << player.get_money() << std::endl;
                     cleaning_function(croupier, player, need_to_shuffle, hand); //zabiera karty krupierowi i graczowi
+                    return;
                 }
                 if (player.give_player_sum() == croupier.give_croupier_sum()) {
-                    std::cout << "Draw" << std::endl;
                     player.win_money(bid); //remis gracz otrzymuje tyle ile posatwil
+                    std::cout << "Draw, account status: " << player.get_money() << std::endl;
                     cleaning_function(croupier, player, need_to_shuffle, hand);
+                    return;
                 }
             }
             /*if (choice == "split") {
@@ -112,6 +121,7 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand)
                 show_current_status(croupier, player); //pokazuje karty
                 play_again(player, croupier, need_to_shuffle, &hand, bid); //decyzja garcza
                 cleaning_function(croupier, player, need_to_shuffle, &hand);
+                return;
             }*/
         }
         if (croupier.has_ace_as_first()) { //sprawdza czy mozna ubezpieczyc
@@ -123,39 +133,45 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand)
                 show_current_status(croupier, player);
                 play_again(player, croupier, need_to_shuffle, hand, bid);
                 cleaning_function(croupier, player, need_to_shuffle, hand);
+                return;
             }
             if (choice == "stand") { //konczy gre
                 croupier.show_second();
                 show_current_status(croupier, player);
                 croupier_move(croupier, player, need_to_shuffle);
                 show_current_status(croupier, player);
-                if (player.give_player_sum() > croupier.give_croupier_sum()) {
-                    std::cout << "You have won!" << std::endl;
+                if (player.give_player_sum() > croupier.give_croupier_sum() || croupier.give_croupier_sum() > 21) {
                     player.win_money(bid * 2);
+                    std::cout << "You have won! Account status: " << player.get_money() << std::endl;
                     cleaning_function(croupier, player, need_to_shuffle, hand);
+                    return;
                 }
                 if (player.give_player_sum() == croupier.give_croupier_sum()) {
-                    std::cout << "Draw" << std::endl;
                     player.win_money(bid);
+                    std::cout << "Draw, account status: " << player.get_money() << std::endl;
                     cleaning_function(croupier, player, need_to_shuffle, hand);
+                    return;
                 } else {
-                    std::cout << "You have lost" << std::endl;
+                    std::cout << "You have lost, account status: " << player.get_money() << std::endl;
                     cleaning_function(croupier, player, need_to_shuffle, hand);
+                    return;
                 }
             }
             if (choice == "insurance") {
                 player.take_money(int(bid * 0.5)); //pobieranie polowy z oplaty
                 play_again(player, croupier, need_to_shuffle, hand, bid);
                 if (croupier.is_blackjack()) { //sprawdza czy krupier ma blackjacka
-                    std::cout << "Croupier has blackjack, you have won an insurance" << std::endl;
                     player.win_money(bid); //wyplaca ubezpieczenie
+                    std::cout << "Croupier has blackjack, you have won an insurance, account status: " << player.get_money() << std::endl;
                 }
                 cleaning_function(croupier, player, need_to_shuffle, hand);
+                return;
             }
         } else { //zwyczajna rozgrywka
             if (player.give_player_sum() > 21) { //przegrywa
-                std::cout << "You have lost" << std::endl;
+                std::cout << "You have lost, account status: " << player.get_money() << std::endl;
                 cleaning_function(croupier, player, need_to_shuffle, hand);
+                return;
             }
             std::string choice;
             std::cout << "Do you want to hit, stand or double?" << std::endl;
@@ -165,39 +181,62 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand)
                 show_current_status(croupier, player);
                 play_again(player, croupier, need_to_shuffle, hand, bid);
                 cleaning_function(croupier, player, need_to_shuffle, hand);
+                return;
             }
             if (choice == "stand") { //koniec dobierania kart
                 croupier.show_second();
                 show_current_status(croupier, player);
-                croupier_move(croupier, player, nullptr);
+                croupier_move(croupier, player, need_to_shuffle);
                 show_current_status(croupier, player);
-                if (player.give_player_sum() > croupier.give_croupier_sum()) {
-                    std::cout << "You have won!" << std::endl;
+                if (player.give_player_sum() > croupier.give_croupier_sum() || croupier.give_croupier_sum() > 21) {
                     player.win_money(bid * 2);
+                    std::cout << "You have won! Account status: " << player.get_money() << std::endl;
                     cleaning_function(croupier, player, need_to_shuffle, hand);
+                    return;
                 }
                 if (player.give_player_sum() == croupier.give_croupier_sum()) {
-                    std::cout << "Draw" << std::endl;
                     player.win_money(bid);
+                    std::cout << "Draw, account status: " << player.get_money() << std::endl;
                     cleaning_function(croupier, player, need_to_shuffle, hand);
+                    return;
                 } else {
-                    std::cout << "You have lost" << std::endl;
+                    std::cout << "You have lost, account status: " << player.get_money() << std::endl;
                     cleaning_function(croupier, player, need_to_shuffle, hand);
+                    return;
                 }
             }
             if (choice == "double") { //podwoj stawke
                 player.take_money(bid);
-                play_again(player, croupier, need_to_shuffle, hand, 2 * bid);
-                cleaning_function(croupier, player, need_to_shuffle, hand);
+                player.give_card(need_to_shuffle);
+                croupier.show_second();
+                croupier_move(croupier, player, need_to_shuffle);
+                show_current_status(croupier, player);
+                if (player.give_player_sum() > croupier.give_croupier_sum() || croupier.give_croupier_sum() > 21) {
+                    player.win_money(bid * 4);
+                    std::cout << "You have won! Account status: " << player.get_money() << std::endl;
+                    cleaning_function(croupier, player, need_to_shuffle, hand);
+                    return;
+                }
+                if (player.give_player_sum() == croupier.give_croupier_sum()) {
+                    player.win_money(bid * 2);
+                    std::cout << "Draw, account status: " << player.get_money() << std::endl;
+                    cleaning_function(croupier, player, need_to_shuffle, hand);
+                    return;
+                } else {
+                    std::cout << "You have lost, account status: " << player.get_money() << std::endl;
+                    cleaning_function(croupier, player, need_to_shuffle, hand);
+                    return;
+                }
             }
         }
     }
 }
 
 void play_again(Player &player, Croupier &croupier, bool *need_to_shuffle, Hand *hand, int bid) {
-    std::cout << player.give_player_sum() << std::endl;
-    if (player.give_player_sum() > 21){ //sprawdza czy nie przekroczylo 21
-        std::cout << "You have lost" << std::endl;
+    if (player.give_player_sum() > 21) { //sprawdza czy nie przekroczylo 21
+        croupier.show_second();
+        show_current_status(croupier, player);
+        std::cout << "You have lost, account status: " << player.get_money() << std::endl;
         return;
     }
     std::string choice;
@@ -212,17 +251,20 @@ void play_again(Player &player, Croupier &croupier, bool *need_to_shuffle, Hand 
     if (choice == "stand") { //konczy dobieranie, sprawdza stan gry
         croupier.show_second();
         show_current_status(croupier, player);
-        croupier_move(croupier, player, nullptr);
+        croupier_move(croupier, player, need_to_shuffle);
         show_current_status(croupier, player);
-        if (player.give_player_sum() > croupier.give_croupier_sum()) {
-            std::cout << "You have won!" << std::endl;
+        if (player.give_player_sum() > croupier.give_croupier_sum() || croupier.give_croupier_sum() > 21) {
             player.win_money(bid * 2);
+            std::cout << "You have won! Account status: " << player.get_money() << std::endl;
+            return;
         }
         if (player.give_player_sum() == croupier.give_croupier_sum()) {
-            std::cout << "Draw" << std::endl;
             player.win_money(bid);
+            std::cout << "Draw, account status: " << player.get_money() << std::endl;
+            return;
         } else {
-            std::cout << "You have lost" << std::endl;
+            std::cout << "You have lost, account status: " << player.get_money() << std::endl;
+            return;
         }
     }
 }
