@@ -4,16 +4,18 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "croupier.hpp"
+#include "player.hpp"
 
-void split(Croupier& croupier, Player& player, bool* need_to_shuffle, Hand* hand, bid) {
-    player.getmoney(bid);
+void split(Croupier& croupier, Player& player, bool* need_to_shuffle, Hand* hand, int bid) {
+    player.take_money(bid);
     int potential_win1 = bid;
     int potential_win2 = bid;
     std::vector <Cards> secondhand;
-    secondhand.push_back(player.get_player_cards.pop_back()) //czy cos podobnego
-    player.givecard(need_to_shuffle);
-    show_current_status;
-    show_secondhand_status;
+    secondhand.push_back(player.get_player_cards().end()) //czy cos podobnego
+    player.give_card(need_to_shuffle);
+    show_current_status();
+    show_secondhand_status();
     std::cout << "hit, stand or double?" << std::endl;
     std::string choose;
     std::cin >> choose;

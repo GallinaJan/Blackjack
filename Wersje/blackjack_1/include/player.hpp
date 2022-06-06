@@ -75,6 +75,7 @@ public:
         }
     }
 
+    std::vector<Cards> get_player_cards() {return player_cards_;}
 
     void clean_hand() { player_cards_.clear(); }
 
