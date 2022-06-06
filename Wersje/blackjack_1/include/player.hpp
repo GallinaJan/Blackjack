@@ -8,7 +8,7 @@
 
 class Player {
 public:
-    void give_card(bool *need_to_shuffle) { player_cards_.push_back(cards_on_table_.take_card(need_to_shuffle)); }
+    void give_card(bool *need_to_shuffle) { player_cards_.push_back(Hand::take_card(need_to_shuffle)); }
 
     void take_money(int x) { my_money_ = my_money_ - x; }
 
@@ -75,7 +75,7 @@ public:
         }
     }
 
-    std::vector<Cards> get_player_cards() {return player_cards_;}
+    //std::vector<Cards> get_player_cards() {return player_cards_;}
 
     void clean_hand() { player_cards_.clear(); }
 

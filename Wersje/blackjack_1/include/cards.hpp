@@ -56,7 +56,7 @@ public:
         }
     }
 
-    Cards take_card(bool *need_to_shuffle){
+    static Cards take_card(bool *need_to_shuffle){
         if(hand_.size() > 10){
             *need_to_shuffle = true;
         }
@@ -71,7 +71,7 @@ public:
     }
 
 private:
-    std::vector<Cards> hand_;
+    inline static std::vector<Cards> hand_;
     Cards default_tab_[52] = {
             Cards("Ace", "Hearts", 11, 0),
             Cards("Ace", "Diamonds", 11, 1),

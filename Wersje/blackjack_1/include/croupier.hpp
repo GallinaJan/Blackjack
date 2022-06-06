@@ -12,7 +12,7 @@
 class Croupier {
 public:
     //Dodaje do ręki croupiera nową karte z talii
-    void give_card(bool *need_to_shuffle) { croupier_cards_.push_back(cards_on_table_.take_card(need_to_shuffle)); }
+    void give_card(bool *need_to_shuffle) { croupier_cards_.push_back(Hand::take_card(need_to_shuffle)); }
 
     //umożliwia wypisanie drugiej karty po turze gracza
     void show_second() { show_second_ = true; }

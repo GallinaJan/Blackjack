@@ -4,15 +4,15 @@
 #include "croupier.hpp"
 #include "cards.hpp"
 
-void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand); //funkcja rozpoczynajaca gre
-void play_again(Player &player, Croupier &croupier, bool *need_to_shuffle, Hand *hand,
+void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand &hand); //funkcja rozpoczynajaca gre
+void play_again(Player &player, Croupier &croupier, bool *need_to_shuffle, Hand &hand,
                 int bid); //funkcja pozwalajaca a kolejne ruchy
-void cleaning_function(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand) {
+void cleaning_function(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand &hand) {
     croupier.clean_hand();
     player.clean_hand();
     if (need_to_shuffle) {
         Hand new_hand;
-        *hand = new_hand;
+        hand = new_hand;
     }
 }
 
@@ -116,7 +116,7 @@ int main() {
         Croupier croupier; //utowrzenie instancji krupiera
         Player player; //utworzenie instancji gracza
         Hand hand;
-        play(croupier, player, need_to_shuffle, &hand); //rozpoczacie rozgrywki
+        play(croupier, player, need_to_shuffle, hand); //rozpoczacie rozgrywki
         while (player.get_money() > -1) { //warunek rozpoczecia gry, stan konta dodatni
             std::cout << "If you want to play again, type \"Y\", if you want to quit, type \"N\"" << std::endl;
             std::cin >> start;
@@ -124,7 +124,7 @@ int main() {
                 return 0;
             }
             if (start == "Y" || start == "y") {
-                play(croupier, player, need_to_shuffle, &hand); //kontynuowanie rozgrywki
+                play(croupier, player, need_to_shuffle, hand); //kontynuowanie rozgrywki
             }
         }
     } else {
@@ -133,7 +133,7 @@ int main() {
     return 0;
 }
 
-void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand) {
+void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand &hand) {
     int bid = 0;
     std::cout << "How much money do you bid?" << std::endl;
     std::cin >> bid; //stawka gracza
@@ -188,11 +188,11 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand)
                 player.give_card(need_to_shuffle);
                 show_current_status(croupier, player); //pokazuje karty
                 play_again(player, croupier, need_to_shuffle, &hand, bid); //decyzja garcza
-                cleaning_function(croupier, player, need_to_shuffle, &hand);
+                cleaning_function(croupier, player, need_to_shuffle, hand);
                 return;
             }*/
         }
-        if (croupier.has_ace_as_first()) { //sprawdza czy mozna ubezpieczyc
+        if (croupier.has_ace_as_first() && player.get_money() >= int(bid * 0.5)) { //sprawdza czy mozna ubezpieczyc
             std::string choice;
             std::cout << "Do you want to hit, stand or insurance?" << std::endl;
             std::cin >> choice;
@@ -230,7 +230,8 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand)
                 play_again(player, croupier, need_to_shuffle, hand, bid);
                 if (croupier.is_blackjack()) { //sprawdza czy krupier ma blackjacka
                     player.win_money(bid); //wyplaca ubezpieczenie
-                    std::cout << "Croupier has blackjack, you have won an insurance, account status: " << player.get_money() << std::endl;
+                    std::cout << "Croupier has blackjack, you have won an insurance, account status: "
+                              << player.get_money() << std::endl;
                 }
                 cleaning_function(croupier, player, need_to_shuffle, hand);
                 return;
@@ -300,7 +301,7 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand)
     }
 }
 
-void play_again(Player &player, Croupier &croupier, bool *need_to_shuffle, Hand *hand, int bid) {
+void play_again(Player &player, Croupier &croupier, bool *need_to_shuffle, Hand &hand, int bid) {
     if (player.give_player_sum() > 21) { //sprawdza czy nie przekroczylo 21
         croupier.show_second();
         show_current_status(croupier, player);
