@@ -4,6 +4,11 @@
 #include "croupier.hpp"
 #include "cards.hpp"
 #include "cleaning.hpp"
+#include <cstdlib>
+#include <ctime>
+#include <chrono>
+
+
 
 void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand); //funkcja rozpoczynajaca gre
 void play_again(Player &player, Croupier &croupier, bool *need_to_shuffle, Hand *hand, int bid); //funkcja pozwalajaca a kolejne ruchy
@@ -98,13 +103,13 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand)
             std::string choice;
             std::cout << "Do you want to hit, stand or insurance?" << std::endl;
             std::cin >> choice;
-            if (choice == "hit") {
+            if (choice == "hit") { //gra dalej
                 player.give_card(need_to_shuffle);
                 show_current_status(croupier, player);
                 play_again(player, croupier, need_to_shuffle, hand, bid);
                 cleaning_function(croupier, player, need_to_shuffle, hand);
             }
-            if (choice == "stand") {
+            if (choice == "stand") { //konczy gre
                 croupier.show_second();
                 show_current_status(croupier, player);
                 croupier_move(croupier, player, need_to_shuffle);
@@ -126,27 +131,27 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand)
             if (choice == "insurance") {
                 player.take_money(int(bid * 0.5)); //pobieranie polowy z oplaty
                 play_again(player, croupier, need_to_shuffle, hand, bid);
-                if (croupier.is_blackjack()) {
+                if (croupier.is_blackjack()) { //sprawdza czy krupier ma blackjacka
                     std::cout << "Croupier has blackjack, you have won an insurance" << std::endl;
-                    player.win_money(bid);
+                    player.win_money(bid); //wyplaca ubezpieczenie
                 }
                 cleaning_function(croupier, player, need_to_shuffle, hand);
             }
-        } else {
-            if (player.give_player_sum() > 21) {
+        } else { //zwyczajna rozgrywka
+            if (player.give_player_sum() > 21) { //przegrywa
                 std::cout << "You have lost" << std::endl;
                 cleaning_function(croupier, player, need_to_shuffle, hand);
             }
             std::string choice;
-            std::cout << "Do you want to hit or stand?" << std::endl;
+            std::cout << "Do you want to hit, stand or double?" << std::endl;
             std::cin >> choice;
-            if (choice == "hit") {
+            if (choice == "hit") { //graj dalej
                 player.give_card(need_to_shuffle);
                 show_current_status(croupier, player);
                 play_again(player, croupier, need_to_shuffle, hand, bid);
                 cleaning_function(croupier, player, need_to_shuffle, hand);
             }
-            if (choice == "stand") {
+            if (choice == "stand") { //koniec dobierania kart
                 croupier.show_second();
                 show_current_status(croupier, player);
                 croupier_move(croupier, Player(), nullptr);
@@ -165,9 +170,9 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand)
                     cleaning_function(croupier, player, need_to_shuffle, hand);
                 }
             }
-            if (choice == "double") {
+            if (choice == "double") { //podwoj stawke
                 player.take_money(bid);
-                play_again(player, croupier, need_to_shuffle, hand, bid);
+                play_again(player, croupier, need_to_shuffle, hand, 2 * bid);
                 cleaning_function(croupier, player, need_to_shuffle, hand);
             }
         }
@@ -175,15 +180,20 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand)
 }
 
 void play_again(Player &player, Croupier &croupier, bool *need_to_shuffle, Hand *hand, int bid) {
+    if (player.give_player_sum() > 21){ //sprawdza czy nie przekroczylo 21
+        std::cout << "You have lost" << std::endl;
+        return;
+    }
     std::string choice;
     std::cout << "Do you want to hit or stand?" << std::endl;
     std::cin >> choice;
-    if (choice == "hit") {
+    if (choice == "hit") { //dobiera karty dalej
         player.give_card(need_to_shuffle);
         show_current_status(croupier, player);
         play_again(player, croupier, need_to_shuffle, hand, bid);
+        return;
     }
-    if (choice == "stand") {
+    if (choice == "stand") { //konczy dobieranie, sprawdza stan gry
         croupier.show_second();
         show_current_status(croupier, player);
         croupier_move(croupier, Player(), nullptr);
