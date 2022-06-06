@@ -7,14 +7,18 @@
 
 class Croupier {
 public:
+    //Dodaje do ręki croupiera nową karte z talii
     void give_card(bool *need_to_shuffle) { croupier_cards_.push_back(cards_on_table_.take_card(need_to_shuffle)); }
 
+    //umożliwia wypisanie drugiej karty po turze gracza
     void show_second() { show_second_ = true; }
 
+    //usuwa całą rękę croupiera po zakończonym rozdaniu
     void clean_hand() {
         croupier_cards_.clear();
         show_second_ = false;
     }
+
 
     void show_cards() {
         std::cout << "Karty krupiera: " << std::endl;
