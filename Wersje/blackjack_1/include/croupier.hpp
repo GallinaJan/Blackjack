@@ -52,15 +52,15 @@ public:
         }
     }
 
-    int give_player_sum() {
+    int give_croupier_sum() {
         int ace_number = 0;
         int sum = 0;
-        for (auto elem: player_cards_) {
+        for (auto elem: croupier_cards_) {
             if (elem.give_id() == 0 || elem.give_id() == 1 || elem.give_id() == 2 || elem.give_id() == 3) {
                 ace_number += 1;
             }
         }
-        for (auto elem: player_cards_) {
+        for (auto elem: croupier_cards_) {
             if (elem.give_id() != 0 && elem.give_id() != 1 && elem.give_id() != 2 && elem.give_id() != 3) {
                 if (
                         elem.give_id() == 4 ||
@@ -78,7 +78,7 @@ public:
                         ) {
                     sum += 10;
                 } else {
-                    sum += elem.give_value();
+                    sum += int(elem.give_value());
                 }
             }
             if (ace_number != 0) {

@@ -3,11 +3,6 @@
 #include "player.hpp"
 #include "croupier.hpp"
 #include "cards.hpp"
-#include <cstdlib>
-#include <ctime>
-#include <chrono>
-
-
 
 void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand); //funkcja rozpoczynajaca gre
 void play_again(Player &player, Croupier &croupier, bool *need_to_shuffle, Hand *hand, int bid); //funkcja pozwalajaca a kolejne ruchy
@@ -200,6 +195,7 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand)
 }
 
 void play_again(Player &player, Croupier &croupier, bool *need_to_shuffle, Hand *hand, int bid) {
+    std::cout << player.give_player_sum() << std::endl;
     if (player.give_player_sum() > 21){ //sprawdza czy nie przekroczylo 21
         std::cout << "You have lost" << std::endl;
         return;

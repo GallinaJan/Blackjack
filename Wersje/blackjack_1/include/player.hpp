@@ -45,7 +45,7 @@ public:
                         ) {
                     sum += 10;
                 } else {
-                    sum += elem.give_value();
+                    sum += int(elem.give_value());
                 }
             }
             if (ace_number != 0) {
