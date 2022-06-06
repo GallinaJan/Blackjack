@@ -26,6 +26,8 @@ void split(Croupier& croupier, Player& player, bool* need_to_shuffle, Hand* hand
     } else {
         while (choose == "hit") {
             player.givecard(need_to_shuffle);
+            show_current_status;
+            show_secondhand_status;
             std::cout << "hit, stand or double?" << std::endl;
             std::cin >> choose;
         }
@@ -46,6 +48,8 @@ void split(Croupier& croupier, Player& player, bool* need_to_shuffle, Hand* hand
     } else {
         while (choose == "hit") {
             secondhand.givecard(need_to_shuffle);
+            show_current_status;
+            show_secondhand_status;
             std::cout << "hit, stand or double?" << std::endl;
             std::cin >> choose;
         }
@@ -66,11 +70,14 @@ void split(Croupier& croupier, Player& player, bool* need_to_shuffle, Hand* hand
     if (secondhand.give_sum > croupier.give_croupier_sum || croupier.give_croupier_sum > 21) {
         player.givemoney(potential_win2 * 2);
         std::cout << "Wygrana reki 2" << std::endl;
+        cleaning_function;
     } else if (secondhand.give_sum > croupier.give_croupier_sum) {
         player.givemoney(potential_win1);
         std::cout << "Remis reki 2" << std::endl;
+        cleaning_function;
     } else {
         std::cout << "przegrana reki 2" << std::endl;
+        cleaning_function;
     }
 
 }
