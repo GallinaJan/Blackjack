@@ -131,7 +131,7 @@ private:
             Cards("2", "kier", 3, 48),
             Cards("2", "karo", 3, 49)
             Cards("2", "pik", 3, 50),
-            Cards("2", "trefl", 3, 51)};
+            Cards("2", "trefl", 3, 51)} ;
 };
 
 #endif //CARDS_HPP
