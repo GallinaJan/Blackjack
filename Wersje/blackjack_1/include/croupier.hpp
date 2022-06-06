@@ -44,33 +44,33 @@ public:
         }
     }
 
-    int give_croupier_sum() {
+    int give_player_sum() {
         int ace_number = 0;
         int sum = 0;
-        for (auto elem: croupier_cards_) {
-            if (elem.give_id() == 13 || elem.give_id() == 26 || elem.give_id() == 39 || elem.give_id() == 52) {
+        for (auto elem: player_cards_) {
+            if (elem.give_id() == 0 || elem.give_id() == 1 || elem.give_id() == 2 || elem.give_id() == 3) {
                 ace_number += 1;
             }
         }
-        for (auto elem: croupier_cards_) {
-            if (elem.give_id() != 13 && elem.give_id() != 26 && elem.give_id() != 39 && elem.give_id() != 52) {
+        for (auto elem: player_cards_) {
+            if (elem.give_id() != 0 && elem.give_id() != 1 && elem.give_id() != 2 && elem.give_id() != 3) {
                 if (
+                        elem.give_id() == 4 ||
+                        elem.give_id() == 5 ||
+                        elem.give_id() == 6 ||
+                        elem.give_id() == 7 ||
+                        elem.give_id() == 8 ||
+                        elem.give_id() == 9 ||
                         elem.give_id() == 10 ||
                         elem.give_id() == 11 ||
                         elem.give_id() == 12 ||
-                        elem.give_id() == 23 ||
-                        elem.give_id() == 24 ||
-                        elem.give_id() == 25 ||
-                        elem.give_id() == 36 ||
-                        elem.give_id() == 37 ||
-                        elem.give_id() == 38 ||
-                        elem.give_id() == 49 ||
-                        elem.give_id() == 50 ||
-                        elem.give_id() == 51
+                        elem.give_id() == 13 ||
+                        elem.give_id() == 14 ||
+                        elem.give_id() == 15
                         ) {
                     sum += 10;
                 } else {
-                    sum += 1 + (int(elem.give_id())) % 13;
+                    sum += elem.give_value();
                 }
             }
             if (ace_number != 0) {
@@ -81,9 +81,8 @@ public:
                 }
             }
         }
-        return 0;
+        return sum;
     }
-
 private:
     Hand cards_on_table_;
     std::vector<Cards> croupier_cards_;
