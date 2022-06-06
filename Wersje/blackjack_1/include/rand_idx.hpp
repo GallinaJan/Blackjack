@@ -1,5 +1,5 @@
-#ifndef NIC_RAND_IDX_HPP
-#define NIC_RAND_IDX_HPP
+#ifndef RAND_IDX_HPP
+#define RAND_IDX_HPP
 
 #include <iostream>
 #include <cstdlib>
@@ -10,4 +10,4 @@ int get_idx() {
     return (101 * std::rand()) % 52;
 }
 
-#endif //NIC_RAND_IDX_HPP
+#endif //RAND_IDX_HPP
