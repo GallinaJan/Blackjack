@@ -7,7 +7,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <chrono>
-#include "rand_idx"
+#include "rand_idx.hpp"
 
 //srand(static_cast<unsigned int>(time(NULL)));
 
