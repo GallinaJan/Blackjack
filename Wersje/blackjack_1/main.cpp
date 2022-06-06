@@ -3,7 +3,6 @@
 #include "player.hpp"
 #include "croupier.hpp"
 #include "cards.hpp"
-#include "cleaning.hpp"
 #include <cstdlib>
 #include <ctime>
 #include <chrono>
@@ -12,7 +11,28 @@
 
 void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand); //funkcja rozpoczynajaca gre
 void play_again(Player &player, Croupier &croupier, bool *need_to_shuffle, Hand *hand, int bid); //funkcja pozwalajaca a kolejne ruchy
-
+void cleaning_function(Croupier& croupier, Player& player, bool* need_to_shuffle, Hand* hand) {
+    croupier.clean_hand();
+    player.clean_hand();
+    if(need_to_shuffle){
+        Hand new_hand;
+        *hand = new_hand;
+    }
+}
+void show_current_status(Croupier& croupier, Player& player) {
+    croupier.show_cards();
+    player.show_cards();
+}
+void croupier_move(Croupier &croupier, Player &player, bool *need_to_shuffle) {
+    int keep_playing = 17;
+    int player_sum = player.give_player_sum();
+    if (player_sum >= keep_playing) {
+        keep_playing = player_sum;
+    }
+    while (croupier.give_croupier_sum() <= keep_playing) {
+        croupier.give_card(need_to_shuffle);
+    }
+}
 int main() {
     bool false_ = false;
     bool *need_to_shuffle = &false_;
@@ -154,7 +174,7 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand)
             if (choice == "stand") { //koniec dobierania kart
                 croupier.show_second();
                 show_current_status(croupier, player);
-                croupier_move(croupier, Player(), nullptr);
+                croupier_move(croupier, player, nullptr);
                 show_current_status(croupier, player);
                 if (player.give_player_sum() > croupier.give_croupier_sum()) {
                     std::cout << "You have won!" << std::endl;
@@ -196,7 +216,7 @@ void play_again(Player &player, Croupier &croupier, bool *need_to_shuffle, Hand 
     if (choice == "stand") { //konczy dobieranie, sprawdza stan gry
         croupier.show_second();
         show_current_status(croupier, player);
-        croupier_move(croupier, Player(), nullptr);
+        croupier_move(croupier, player, nullptr);
         show_current_status(croupier, player);
         if (player.give_player_sum() > croupier.give_croupier_sum()) {
             std::cout << "You have won!" << std::endl;

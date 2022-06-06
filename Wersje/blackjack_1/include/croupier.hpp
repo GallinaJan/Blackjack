@@ -1,9 +1,13 @@
 #ifndef INCLUDE_CROUPIER_HPP_
 #define INCLUDE_CROUPIER_HPP_
 
-#include <vector>
-#include <stdio.h>
 #include "cards.hpp"
+#include <iostream>
+#include <string>
+#include "player.hpp"
+#include <cstdlib>
+#include <ctime>
+#include <chrono>
 
 class Croupier {
 public:
@@ -90,15 +94,6 @@ private:
     bool show_second_ = false;
 };
 
-void croupier_move(Croupier &croupier, Player player, bool *need_to_shuffle) {
-    int keep_playing = 17;
-    int player_sum = player.give_player_sum();
-    if (player_sum >= keep_playing) {
-        keep_playing = player_sum;
-    }
-    while (croupier.give_croupier_sum() <= keep_playing) {
-        croupier.give_card(need_to_shuffle);
-    }
-}
+
 
 #endif //*INCLUDE_CROUPIER_HPP_

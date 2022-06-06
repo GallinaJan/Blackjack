@@ -1,5 +1,5 @@
 #include "cleaning.hpp"
-
+/*
 void cleaning_function(Croupier& croupier, Player& player) {
     show_current_status(croupier, player)
     croupier.clear_table
@@ -10,4 +10,4 @@ void cleaning_function(Croupier& croupier, Player& player) {
 void show_current_status(Croupier& croupier, Player& player) {
     croupier.show_cards();
     player.show_cards();
-}
+}*/

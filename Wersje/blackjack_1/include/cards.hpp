@@ -3,8 +3,12 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
+#include "player.hpp"
 #include <cstdlib>
+#include <ctime>
+#include <chrono>
+
+//srand(static_cast<unsigned int>(time(NULL)));
 
 class Cards {
 public:
