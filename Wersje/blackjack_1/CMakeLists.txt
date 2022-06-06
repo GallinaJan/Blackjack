@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.21.1)
 
 project(blackjack_1)
 
@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(SOURCE_FILES
         src/player.cpp
         src/cleaning.cpp
+        src/croupier.cpp
         )
 
 set(SOURCES_FILES_TESTS

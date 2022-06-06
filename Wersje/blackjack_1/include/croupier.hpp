@@ -1,20 +1,104 @@
 #ifndef INCLUDE_CROUPIER_HPP_
 #define INCLUDE_CROUPIER_HPP_
+
 #include <vector>
 #include <stdio.h>
 #include "cards.hpp"
-class Croupier
-{
+
+class Croupier {
 public:
-    void add_money(double added) {money_on_table_ = added;}
-    void give_card() {croupier_cards_.push_back(Card);}
-    void show_second() {std::cout<< croupier_cards_[1] << std::endl;}
+    void give_card(bool *need_to_shuffle) { croupier_cards_.push_back(cards_on_table_.take_card(need_to_shuffle)); }
+
+    void show_second() { show_second_ = true; }
+
+    void clean_hand() {
+        croupier_cards_.clear();
+        show_second_ = false;
+    }
+
+    void show_cards() {
+        std::cout << "Karty krupiera: " << std::endl;
+        if (show_second_) {
+            for (auto i: croupier_cards_) {
+                std::cout << i.give_name() << " " << i.give_suit() << std::endl;
+            }
+        } else {
+            std::cout << croupier_cards_[0].give_name() << " " << croupier_cards_[0].give_suit() << std::endl;
+        }
+    }
+
+    bool is_blackjack() {
+        if (has_ace_as_first() && (croupier_cards_[1].give_name() == "walet" || croupier_cards_[1].give_name() == "dama" ||
+                                   croupier_cards_[1].give_name() == "krol")) {
+            return true;
+        }
+        return false;
+    }
+
+    bool has_ace_as_first() {
+        if (croupier_cards_[0].give_name() == "as") {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    int give_croupier_sum() {
+        int ace_number = 0;
+        int sum = 0;
+        for (auto elem: croupier_cards_) {
+            if (elem.give_id() == 13 || elem.give_id() == 26 || elem.give_id() == 39 || elem.give_id() == 52) {
+                ace_number += 1;
+            }
+        }
+        for (auto elem: croupier_cards_) {
+            if (elem.give_id() != 13 && elem.give_id() != 26 && elem.give_id() != 39 && elem.give_id() != 52) {
+                if (
+                        elem.give_id() == 10 ||
+                        elem.give_id() == 11 ||
+                        elem.give_id() == 12 ||
+                        elem.give_id() == 23 ||
+                        elem.give_id() == 24 ||
+                        elem.give_id() == 25 ||
+                        elem.give_id() == 36 ||
+                        elem.give_id() == 37 ||
+                        elem.give_id() == 38 ||
+                        elem.give_id() == 49 ||
+                        elem.give_id() == 50 ||
+                        elem.give_id() == 51
+                        ) {
+                    sum += 10;
+                } else {
+                    sum += 1 + (int(elem.give_id())) % 13;
+                }
+            }
+            if (ace_number != 0) {
+                if ((sum + 10 + ace_number) <= 21) {
+                    sum += (10 + ace_number);
+                } else {
+                    sum += ace_number;
+                }
+            }
+        }
+        return 0;
+    }
+
 private:
-    double money_on_table_;
-    double sum_ = 0;
+    Hand cards_on_table_;
     std::vector<Cards> croupier_cards_;
+    bool show_second_ = false;
 };
 
-void croupier_move(Croupier& croupier);
+void croupier_move(Croupier &croupier, Player player, bool *need_to_shuffle) {
+    int keep_playing = 17;
+    int player_sum = player.give_player_sum();
+    if (player_sum >= keep_playing) {
+        keep_playing = player_sum;
+    }
+    while (croupier.give_croupier_sum() <= keep_playing) {
+        croupier.give_card(need_to_shuffle);
+    }
+}
 
 #endif //*INCLUDE_CROUPIER_HPP_

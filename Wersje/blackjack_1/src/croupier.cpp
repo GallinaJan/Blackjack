@@ -1,10 +1,8 @@
-//
-// Created by Jakub on 02.06.2022.
-//
-#include "croupier.hpp"
+#include "player.hpp"
+#include <cstdlib>
+#include "cleaning.hpp"
+#include <map>
+#include <vector>
+#include "cards.hpp"
 
-void croupier_move(Croupier& croupier){
-    while(croupier.give_sum() < 17){
-        croupier.give_card();
-    }
-}
+
