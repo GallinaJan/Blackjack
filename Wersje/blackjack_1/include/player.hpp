@@ -13,7 +13,7 @@ public:
     void take_money(int x) { my_money_ = my_money_ - x; }
 
     void show_cards() {
-        std::cout << "Karty gracza: " << std::endl;
+        std::cout << "Player cards: " << std::endl;
         for (auto elem: player_cards_) {
             std::cout << elem.give_name() << " " << elem.give_suit() << std::endl;
         }
@@ -23,7 +23,7 @@ public:
         int ace_number = 0;
         int sum = 0;
         for (auto elem: player_cards_) {
-            if (elem.give_name() == "as") {
+            if (elem.give_name() == "Ace") {
                 ace_number += 1;
             }
         }
@@ -61,14 +61,14 @@ public:
     }
 
     bool is_blackjack() {
-        if (player_cards_[0].give_name() == "as" &&
-            (player_cards_[1].give_name() == "walet" || player_cards_[1].give_name() == "dama" ||
-             player_cards_[1].give_name() == "krol" || player_cards_[1].give_name() == "10")) {
+        if (player_cards_[0].give_name() == "Ace" &&
+            (player_cards_[1].give_name() == "Jack" || player_cards_[1].give_name() == "Queen" ||
+             player_cards_[1].give_name() == "King" || player_cards_[1].give_name() == "10")) {
             return true;
         }
-        if (player_cards_[1].give_name() == "as" &&
-            (player_cards_[0].give_name() == "walet" || player_cards_[0].give_name() == "dama" ||
-             player_cards_[0].give_name() == "krol" || player_cards_[0].give_name() == "10")) {
+        if (player_cards_[1].give_name() == "Ace" &&
+            (player_cards_[0].give_name() == "Jack" || player_cards_[0].give_name() == "Queen" ||
+             player_cards_[0].give_name() == "King" || player_cards_[0].give_name() == "10")) {
             return true;
         } else {
             return false;

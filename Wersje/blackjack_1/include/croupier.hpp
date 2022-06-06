@@ -25,26 +25,27 @@ public:
 
 
     void show_cards() {
-        std::cout << "Karty krupiera: " << std::endl;
+        std::cout << "Croupier cards: " << std::endl;
         if (show_second_) {
             for (auto i: croupier_cards_) {
                 std::cout << i.give_name() << " " << i.give_suit() << std::endl;
             }
         } else {
             std::cout << croupier_cards_[0].give_name() << " " << croupier_cards_[0].give_suit() << std::endl;
+            std::cout << "Hidden card" << std::endl;
         }
     }
 
     bool is_blackjack() {
-        if (has_ace_as_first() && (croupier_cards_[1].give_name() == "walet" || croupier_cards_[1].give_name() == "dama" ||
-                                   croupier_cards_[1].give_name() == "krol")) {
+        if (has_ace_as_first() && (croupier_cards_[1].give_name() == "Jack" || croupier_cards_[1].give_name() == "Queen" ||
+                                   croupier_cards_[1].give_name() == "King" || croupier_cards_[1].give_name() == "10")) {
             return true;
         }
         return false;
     }
 
     bool has_ace_as_first() {
-        if (croupier_cards_[0].give_name() == "as") {
+        if (croupier_cards_[0].give_name() == "Ace") {
             return true;
         }
         else {
@@ -56,7 +57,7 @@ public:
         int ace_number = 0;
         int sum = 0;
         for (auto elem: croupier_cards_) {
-            if (elem.give_name() == "as") {
+            if (elem.give_name() == "Ace") {
                 ace_number += 1;
             }
         }
