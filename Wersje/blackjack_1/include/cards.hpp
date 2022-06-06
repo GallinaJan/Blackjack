@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <chrono>
+#include "rand_idx.hpp"
 
 //srand(static_cast<unsigned int>(time(NULL)));
 
@@ -23,7 +24,7 @@ public:
 
     std::size_t give_value() { return value_; }
 
-    std::size_t give_id() const { return id_; }
+    std::size_t give_id() { return id_; }
 
 private:
     std::string name_;
@@ -42,7 +43,7 @@ public:
             visited_[i] = false;
 
         while (left_ > 0) {
-            int new_idx = std::rand() % 52;
+            int new_idx = get_idx();
             while (visited_[new_idx]){
                 new_idx = (new_idx + 7) % 52;
             }
