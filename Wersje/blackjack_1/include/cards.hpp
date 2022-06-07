@@ -98,10 +98,10 @@ private:
             Cards("10", "Spades", 10, 18),
             Cards("10", "Clubs", 10, 19),
 
-            Cards("9", "Hearts", 10, 20),
-            Cards("9", "Diamonds", 10, 21),
-            Cards("9", "Spades", 10, 22),
-            Cards("9", "Clubs", 10, 23),
+            Cards("9", "Hearts", 9, 20),
+            Cards("9", "Diamonds", 9, 21),
+            Cards("9", "Spades", 9, 22),
+            Cards("9", "Clubs", 9, 23),
 
             Cards("8", "Hearts", 8, 24),
             Cards("8", "Diamonds", 8, 25),
@@ -133,10 +133,10 @@ private:
             Cards("3", "Spades", 3, 46),
             Cards("3", "Clubs", 3, 47),
 
-            Cards("2", "Hearts", 3, 48),
-            Cards("2", "Diamonds", 3, 49),
-            Cards("2", "Spades", 3, 50),
-            Cards("2", "Clubs", 3, 51)} ;
+            Cards("2", "Hearts", 2, 48),
+            Cards("2", "Diamonds", 2, 49),
+            Cards("2", "Spades", 2, 50),
+            Cards("2", "Clubs", 2, 51)} ;
 };
 
 #endif //CARDS_HPP

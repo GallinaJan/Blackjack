@@ -4,15 +4,16 @@
 #include "croupier.hpp"
 #include "cards.hpp"
 
-void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand &hand, std::string difficulty); //funkcja rozpoczynajaca gre
-void play_again(Player &player, Croupier &croupier, bool *need_to_shuffle, Hand &hand,
+void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand,
+          std::string difficulty); //funkcja rozpoczynajaca gre
+void play_again(Player &player, Croupier &croupier, bool *need_to_shuffle, Hand *hand,
                 int bid, std::string difficulty); //funkcja pozwalajaca a kolejne ruchy
-void cleaning_function(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand &hand) {
+void cleaning_function(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand) {
     croupier.clean_hand();
     player.clean_hand();
-    if (need_to_shuffle) {
+    if (*need_to_shuffle) {
         Hand new_hand;
-        hand = new_hand;
+        *hand = new_hand;
     }
 }
 
@@ -25,7 +26,7 @@ void show_current_status(Croupier &croupier, Player &player) {
 
 void croupier_move(Croupier &croupier, Player &player, bool *need_to_shuffle, std::string difficulty) {
     int keep_playing = 15;
-    if(difficulty == "hard") {
+    if (difficulty == "hard") {
         int player_sum = player.give_player_sum();
         if (player_sum >= keep_playing) {
             keep_playing = player_sum;
@@ -35,78 +36,9 @@ void croupier_move(Croupier &croupier, Player &player, bool *need_to_shuffle, st
         croupier.give_card(need_to_shuffle);
     }
 }
-/*void split(Croupier& croupier, Player& player, bool* need_to_shuffle, Hand* hand, int bid) {
-    player.take_money(bid);
-    int potential_win1 = bid;
-    int potential_win2 = bid;
-    std::vector <Cards> secondhand;
-    secondhand.push_back(player.get_player_cards().end()); //czy cos podobnego
-    player.give_card(need_to_shuffle);
-    show_current_status(croupier, player);
-    show_secondhand_status();
-    std::string choice;
-    std::cout << "Do you want to hit, stand or double?" << std::endl;
-    std::cin >> choice;
-    if (choice == "double") {
-        player.take_money(bid);
-        player.give_card(need_to_shuffle);
-        show_current_status(croupier, player);
-        show_secondhand_status();
-        potential_win1 += bid;
-    } else {
-        while (choice == "hit") {
-            player.give_card(need_to_shuffle);
-            std::cout << "Do you want to hit or stand?" << std::endl;
-            std::cin >> choice;
-        }
-        // nie double
-    }
-    secondhand.give_card(need_to_shuffle);
-    show_current_status(croupier, player);
-    show_secondhand_status();
-    std::cout << "hit, stand or double?" << std::endl;
-    std::string choose;
-    std::cin >> choose;
-    if (choose == "double") {
-        player.take_money(bid);
-        secondhand.givecard(need_to_shuffle);
-        show_current_status(croupier, player);
-        show_secondhand_status();
-        potential_win2 += bid;
-    } else {
-        while (choose == "hit") {
-            secondhand.givecard(need_to_shuffle);
-            std::cout << "Do you want to hit or stand?" << std::endl;
-            std::cin >> choose;
-        }
-        // nie double
-    }
 
-//    croupiermove z uwzglednieniem obu rak( nie wiem z czego minimum chcecie dla krupiera)
-
-    if (player.give_player_sum() > croupier.give_croupier_sum() || croupier.give_croupier_sum() > 21) {
-        player.win_money(potential_win1 * 2);
-        std::cout << "Your first hand wins!" << std::endl;
-    } else if (player.give_player_sum() > croupier.give_croupier_sum()) {
-        player.win_money(potential_win1);
-        std::cout << "Your first hand draws." << std::endl;
-    } else {
-        std::cout << "Your first hand loses." << std::endl;
-    }
-    if (secondhand.give_sum > croupier.give_croupier_sum() || croupier.give_croupier_sum() > 21) {
-        player.win_money(potential_win2 * 2);
-        std::cout << "Your second hand wins!" << std::endl;
-    } else if (secondhand.give_sum > croupier.give_croupier_sum()) {
-        player.win_money(potential_win1);
-        std::cout << "Your second hand draws." << std::endl;
-    } else {
-        std::cout << "Your second hand loses." << std::endl;
-    }
-
-}*/
-
-void play_again_splited(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand &hand,
-                        int bid, std::string difficulty){
+void play_again_splited(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand,
+                        int bid, std::string difficulty) {
     if (player.give_player_sum() > 21) { //sprawdza czy nie przekroczylo 21
         show_current_status(croupier, player);
         std::cout << "Your hand loses. " << std::endl;
@@ -123,8 +55,8 @@ void play_again_splited(Croupier &croupier, Player &player, bool *need_to_shuffl
     if (choice == "stand") { //konczy dobieranie, sprawdza stan gry
         player.move_cards();
         return;
-        }
     }
+}
 
 int main() {
     bool false_ = false;
@@ -148,7 +80,7 @@ int main() {
         std::cout << "Type amount of money on your starting account." << std::endl;
         std::cin >> starting_money;
         player.set_starting_money(starting_money);
-        play(croupier, player, need_to_shuffle, hand, difficulty_level); //rozpoczacie rozgrywki
+        play(croupier, player, need_to_shuffle, &hand, difficulty_level); //rozpoczacie rozgrywki
         while (player.get_money() > -1) { //warunek rozpoczecia gry, stan konta dodatni
             std::cout << "If you want to play again, type \"Y\", if you want to quit, type \"N\"" << std::endl;
             std::cin >> start;
@@ -156,7 +88,7 @@ int main() {
                 return 0;
             }
             if (start == "Y" || start == "y") {
-                play(croupier, player, need_to_shuffle, hand, difficulty_level); //kontynuowanie rozgrywki
+                play(croupier, player, need_to_shuffle, &hand, difficulty_level); //kontynuowanie rozgrywki
             }
         }
     } else {
@@ -165,7 +97,7 @@ int main() {
     return 0;
 }
 
-void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand &hand, std::string difficulty) {
+void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand, std::string difficulty) {
     int bid = 0;
     std::cout << "How much money do you bid?" << std::endl;
     std::cin >> bid; //stawka gracza
@@ -182,7 +114,7 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand &hand,
             cleaning_function(croupier, player, need_to_shuffle, hand);
             return;
         }
-        if (player.can_split()) { //sprawdzenie czy gracz moze rozdzielic
+        if (player.can_split() && player.get_money() > bid) { //sprawdzenie czy gracz moze rozdzielic
             std::string choice;
             std::cout << "Do you want to hit, stand or split?" << std::endl;
             std::cin >> choice;
@@ -235,7 +167,8 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand &hand,
                     std::cout << "Your second hand draws." << std::endl;
                     player.clean_hand();
                     return;
-                } if (player.give_player_sum() < croupier.give_croupier_sum()) {
+                }
+                if (player.give_player_sum() < croupier.give_croupier_sum()) {
                     std::cout << "Your second hand loses." << std::endl;
                     player.clean_hand();
                     return;
@@ -252,7 +185,8 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand &hand,
                     std::cout << "Your first hand draws." << std::endl;
                     player.clean_hand();
                     return;
-                } if (player.give_player_sum() < croupier.give_croupier_sum()) {
+                }
+                if (player.give_player_sum() < croupier.give_croupier_sum()) {
                     std::cout << "Your first hand loses." << std::endl;
                     player.clean_hand();
                     return;
@@ -306,7 +240,7 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand &hand,
                 cleaning_function(croupier, player, need_to_shuffle, hand);
                 return;
             }
-        } else { //zwyczajna rozgrywka
+        } if (player.get_money() > bid) { //zwyczajna rozgrywka
             if (player.give_player_sum() > 21) { //przegrywa
                 std::cout << "You have lost, account status: " << player.get_money() << std::endl;
                 cleaning_function(croupier, player, need_to_shuffle, hand);
@@ -368,10 +302,14 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand &hand,
                 }
             }
         }
+        else {
+            play_again(player, croupier, need_to_shuffle, hand, bid, difficulty);
+        }
     }
 }
 
-void play_again(Player &player, Croupier &croupier, bool *need_to_shuffle, Hand &hand, int bid, std::string difficulty) {
+void
+play_again(Player &player, Croupier &croupier, bool *need_to_shuffle, Hand *hand, int bid, std::string difficulty) {
     if (player.give_player_sum() > 21) { //sprawdza czy nie przekroczylo 21
         croupier.show_second();
         show_current_status(croupier, player);
