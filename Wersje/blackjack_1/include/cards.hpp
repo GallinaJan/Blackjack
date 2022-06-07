@@ -57,7 +57,7 @@ public:
     }
 
     static Cards take_card(bool *need_to_shuffle){
-        if(hand_.size() > 10){
+        if(hand_.size() < 20){
             *need_to_shuffle = true;
         }
         if(hand_.size() > 0) {

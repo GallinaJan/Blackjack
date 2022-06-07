@@ -28,7 +28,7 @@ public:
         std::cout << "Croupier cards: " << std::endl;
         if (show_second_) {
             for (auto i: croupier_cards_) {
-                std::cout << i.give_name() << " " << i.give_suit() << std::endl;
+                std::cout << i.give_name() << " of " << i.give_suit() << std::endl;
             }
         } else {
             std::cout << croupier_cards_[0].give_name() << " " << croupier_cards_[0].give_suit() << std::endl;

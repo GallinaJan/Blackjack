@@ -12,10 +12,12 @@ public:
 
     void take_money(int x) { my_money_ = my_money_ - x; }
 
+    void set_starting_money(int x) {my_money_ = x;}
+
     void show_cards() {
         std::cout << "Player cards: " << std::endl;
         for (auto elem: player_cards_) {
-            std::cout << elem.give_name() << " " << elem.give_suit() << std::endl;
+            std::cout << elem.give_name() << " of " << elem.give_suit() << std::endl;
         }
     }
 
