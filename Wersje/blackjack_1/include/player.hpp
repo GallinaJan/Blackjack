@@ -91,7 +91,10 @@ public:
 
     std::size_t give_cards_id(Cards &card) { return card.give_id(); }
 
-    void hide_second(Cards &card_2) { hidden_card_ = card_2; }
+    void hide_second() {
+        hidden_card_ = player_cards_[1];
+        player_cards_.pop_back();
+    }
 
     void show_second() { player_cards_.push_back(hidden_card_); }
 
@@ -99,9 +102,20 @@ public:
 
     int get_money() { return my_money_; }
 
+    void move_cards() {
+        player_cards_2_ = player_cards_;
+        player_cards_.clear();
+    }
+
+    void move_back() {
+        player_cards_ = player_cards_2_;
+        player_cards_2_.clear();
+    }
+
 private:
     int my_money_ = 5000;
     std::vector<Cards> player_cards_;
+    std::vector<Cards> player_cards_2_;
     int sum_ = 0;
     Cards hidden_card_;
     Hand cards_on_table_;

@@ -34,7 +34,8 @@ void croupier_move(Croupier &croupier, Player &player, bool *need_to_shuffle, st
     while (croupier.give_croupier_sum() < keep_playing) {
         croupier.give_card(need_to_shuffle);
     }
-}/*void split(Croupier& croupier, Player& player, bool* need_to_shuffle, Hand* hand, int bid) {
+}
+/*void split(Croupier& croupier, Player& player, bool* need_to_shuffle, Hand* hand, int bid) {
     player.take_money(bid);
     int potential_win1 = bid;
     int potential_win2 = bid;
@@ -103,6 +104,27 @@ void croupier_move(Croupier &croupier, Player &player, bool *need_to_shuffle, st
     }
 
 }*/
+
+void play_again_splited(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand &hand,
+                        int bid, std::string difficulty){
+    if (player.give_player_sum() > 21) { //sprawdza czy nie przekroczylo 21
+        show_current_status(croupier, player);
+        std::cout << "Your hand loses. " << std::endl;
+        return;
+    }
+    std::string choice;
+    std::cout << "Do you want to hit or stand?" << std::endl;
+    std::cin >> choice;
+    if (choice == "hit") { //dobiera karty dalej
+        player.give_card(need_to_shuffle);
+        show_current_status(croupier, player);
+        play_again_splited(croupier, player, need_to_shuffle, hand, bid, difficulty);
+    }
+    if (choice == "stand") { //konczy dobieranie, sprawdza stan gry
+        player.move_cards();
+        return;
+        }
+    }
 
 int main() {
     bool false_ = false;
@@ -188,19 +210,57 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand &hand,
                     return;
                 }
             }
-            /*if (choice == "split") {
+            if (choice == "split") {
                 player.take_money(bid); //podawjana stawka
                 player.hide_second(); //zakrywa karte garczowi zeby grac tylko na pierwszej
                 player.give_card(need_to_shuffle); //dodaje do pierwszej karty druga
                 show_current_status(croupier, player); //pokazuje obie
-                play_again(player, croupier, need_to_shuffle, &hand, bid); //gra mini gre jeszcze raz
+                play_again_splited(croupier, player, need_to_shuffle, hand, bid, difficulty); //gra mini gre jeszcze raz
                 player.show_second(); //gra druga gre
                 player.give_card(need_to_shuffle);
                 show_current_status(croupier, player); //pokazuje karty
-                play_again(player, croupier, need_to_shuffle, &hand, bid); //decyzja garcza
+                play_again_splited(croupier, player, need_to_shuffle, hand, bid, difficulty); //decyzja garcza
+                croupier.show_second();
+                show_current_status(croupier, player);
+                croupier_move(croupier, player, need_to_shuffle, difficulty);
+                show_current_status(croupier, player);
+                if (player.give_player_sum() > croupier.give_croupier_sum() || croupier.give_croupier_sum() > 21) {
+                    player.win_money(bid * 2);
+                    std::cout << "Your second hand wins!" << std::endl;
+                    player.clean_hand();
+                    return;
+                }
+                if (player.give_player_sum() == croupier.give_croupier_sum()) {
+                    player.win_money(bid);
+                    std::cout << "Your second hand draws." << std::endl;
+                    player.clean_hand();
+                    return;
+                } if (player.give_player_sum() < croupier.give_croupier_sum()) {
+                    std::cout << "Your second hand loses." << std::endl;
+                    player.clean_hand();
+                    return;
+                }
+                player.move_back();
+                if (player.give_player_sum() > croupier.give_croupier_sum() || croupier.give_croupier_sum() > 21) {
+                    player.win_money(bid * 2);
+                    std::cout << "Your first hand wins!" << std::endl;
+                    player.clean_hand();
+                    return;
+                }
+                if (player.give_player_sum() == croupier.give_croupier_sum()) {
+                    player.win_money(bid);
+                    std::cout << "Your first hand draws." << std::endl;
+                    player.clean_hand();
+                    return;
+                } if (player.give_player_sum() < croupier.give_croupier_sum()) {
+                    std::cout << "Your first hand loses." << std::endl;
+                    player.clean_hand();
+                    return;
+                }
+                std::cout << "Account status: " << player.get_money() << std::endl;
                 cleaning_function(croupier, player, need_to_shuffle, hand);
                 return;
-            }*/
+            }
         }
         if (croupier.has_ace_as_first() && player.get_money() >= int(bid * 0.5)) { //sprawdza czy mozna ubezpieczyc
             std::string choice;
