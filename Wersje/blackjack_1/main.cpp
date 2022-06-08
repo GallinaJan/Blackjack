@@ -81,6 +81,10 @@ int main() {
         std::cin >> starting_money;
         player.set_starting_money(starting_money);
         play(croupier, player, need_to_shuffle, &hand, difficulty_level); //rozpoczacie rozgrywki
+        if (player.get_money() == 0){
+            std::cout << "Out of money" << std::endl;
+            return 0;
+        }
         while (player.get_money() > -1) { //warunek rozpoczecia gry, stan konta dodatni
             std::cout << "If you want to play again, type \"Y\", if you want to quit, type \"N\"" << std::endl;
             std::cin >> start;
@@ -99,6 +103,9 @@ int main() {
 
 void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand, std::string difficulty) {
     int bid = 0;
+    if (player.get_money() == 0){
+        return;
+    }
     std::cout << "How much money do you bid?" << std::endl;
     std::cin >> bid; //stawka gracza
     if (player.get_money() - bid > -1 && bid != 0) { //warunek czy saldo dodatnie
@@ -304,6 +311,7 @@ void play(Croupier &croupier, Player &player, bool *need_to_shuffle, Hand *hand,
         }
         else {
             play_again(player, croupier, need_to_shuffle, hand, bid, difficulty);
+            cleaning_function(croupier, player, need_to_shuffle, hand);
         }
     }
 }
