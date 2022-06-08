@@ -1,0 +1,89 @@
+-> daj wybór spośród: graj/wyjdź
+
+-> jeśli wyjdź, to wyjdź, a jeśli nie to wykonuj dalej
+
+-> stwórz klasy Croupier oraz Player
+	Croupier 	- private: money on table, cards, sum  - domyślnie: 0, [-1, False] * 52, 0 
+		        - public: add_money, give_card, hide_second, show_second, show_cards, give_sum, is_blackjack,
+		        clear_table, clear_cards, give_card_idx
+	Player 	    - private: win_money, my_money, my_cards, my_sum  - domyślnie: 5000, [-1, False] * 52, 0
+		        - public: take_money, give_card, show_cards, give_sum, is_blackjack, clear_cards, can_split,
+		        give_card_idx
+
+	----- give_card w innym pliku -----> musimy tu uaktualniać również sumę!!!
+
+-> stwórz obiekty croupier typu Croupier, player typu Player
+
+??? można, ale nie trzeba utworzyć żetony ???
+
+while player. my_money > -1
+{
+    postaw 'x' pieniędzy
+    while x - player.my_money > -1:
+        postaw 'x' pieniędzy
+    if x == 0:
+        break
+    croupier.add_money(x)
+    player.take_money(x)
+    croupier.give_card
+    croupier.give_card
+    croupier.hide_second
+    player.give_card
+    player.give_card
+    -> show_current_status(croupier, player)
+
+    if player.is_blackjack:
+        player.win_money(floor(croupier.money on table * 2.5))
+        -> cleaning_function
+
+               hit   stand   duouble    split  insurance
+    choose = [False, False,   False,    False,  False]
+
+    wyświetl co mogę zrobić:
+    if croupier.give_card_idx(0) < 5 and player.give_card_idx(0) == player.give_card_idx(1):
+        show: hit stand duouble split insurance
+        wybierz co chcesz zrobić
+        nadpisz co chcesz zrobić na True
+    elif croupier.give_card_idx(0) < 5:         -- AS krupiera
+        show: hit stand duouble insurance
+        wybierz co chcesz zrobić
+        nadpisz co chcesz zrobić na True
+    elif player.give_card_idx(0) == player.give_card_idx(1):
+        show: hit stand duouble split
+        wybierz co chcesz zrobić
+        nadpisz co chcesz zrobić na True
+    else:
+	if player.my_money - croupier.money on table >= 0:
+        		show: hit stand duouble
+        		wybierz co chcesz zrobić
+        		nadpisz co chcesz zrobić na True
+	else: 
+		show: hit stand
+     		wybierz co chcesz zrobić
+      		nadpisz co chcesz zrobić na True
+
+
+    # split  insurance - poźniej    !!!
+
+    if choose[2]:       -double
+        croupier.add_money(x)
+        player.take_money(x)
+        player.give_card
+        show_current_status(croupier, player)
+        if player.give_sum > 22:
+            -> cleaning_function
+        elif
+            -> crouper_move
+
+    while player.give_sum < 21 and not choose[1]:
+        player.give_card
+        show_current_status(croupier, player)
+        wybierz co chcesz zrobić
+        nadpisz co chcesz zrobić na True
+
+    croupier.show_second
+    if player.give_sum > 21:
+        -> cleaning_function
+
+    -> crouper_move
+}
